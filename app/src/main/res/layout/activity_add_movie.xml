@@ -30,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
+            android:id="@+id/et_year"
             android:layout_width="0dp"
             android:hint="year"
             android:layout_height="wrap_content"

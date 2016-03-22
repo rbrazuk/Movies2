@@ -24,6 +24,7 @@ public class AddMovie extends AppCompatActivity implements AdapterView.OnItemSel
     @Bind(R.id.et_genre) EditText etGenre;
     @Bind(R.id.bt_save_movie) Button btSave;
     @Bind(R.id.cb_on_watchlist) CheckBox cbOnWatchlist;
+    @Bind(R.id.et_year) EditText etYear;
     @Bind(R.id.spinner_rating) Spinner ratingSpinner;
 
     Movie mMovie;
@@ -38,19 +39,18 @@ public class AddMovie extends AppCompatActivity implements AdapterView.OnItemSel
 
         ButterKnife.bind(this);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.ratings,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.ratings, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ratingSpinner.setAdapter(adapter);
         ratingSpinner.setOnItemSelectedListener(this);
 
         Firebase ref = new Firebase("https://rcbmovieapp.firebaseio.com/");
 
-        //moviesRef = ref.child("movies");
-        //watchlistRef = ref.child("watchlist");
-
-
+        moviesRef = ref.child("movies");
+        watchlistRef = ref.child("watchlist");
 
         mMovie = new Movie();
+
     }
 
     @OnClick(R.id.bt_save_movie)
@@ -59,17 +59,21 @@ public class AddMovie extends AppCompatActivity implements AdapterView.OnItemSel
         boolean onWatchList = cbOnWatchlist.isChecked();
 
         if(!onWatchList) {
+
             mMovie.setTitle(etTitle.getText().toString());
             mMovie.setDirector(etDirector.getText().toString());
             mMovie.setGenre(etGenre.getText().toString());
+            mMovie.setYearReleased(etYear.getText().toString());
             mMovie.setOnWatchList(cbOnWatchlist.isChecked());
 
             moviesRef.push().setValue(mMovie);
         } else if (onWatchList) {
+
             mMovie.setTitle(etTitle.getText().toString());
             mMovie.setDirector(etDirector.getText().toString());
             mMovie.setGenre(etGenre.getText().toString());
             mMovie.setOnWatchList(cbOnWatchlist.isChecked());
+            mMovie.setYearReleased(etYear.getText().toString());
 
             watchlistRef.push().setValue(mMovie);
         }
